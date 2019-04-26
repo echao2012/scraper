@@ -12,11 +12,21 @@ var ArticleSchema = new Schema({
         unique: true
     },
 
+    subtitle: {
+        type: String,
+        required: true
+    },
+
     // Link to the article
     link: {
         type: String,
         required: true,
         unique: true
+    },
+
+    imgUrl: {
+        type: String,
+        required: true
     },
 
     // Boolean indicating if the article is saved

@@ -15,9 +15,16 @@ module.exports = function(app) {
 
             // Find each list item with an article class
             $("li.article").each(function(i, element) {
+                var imgUrl = $(this).children("figure").children("div.listing").attr("style")
+                imgUrl = imgUrl.substring(22, imgUrl.lastIndexOf("-"))
+                    + imgUrl.substring(imgUrl.lastIndexOf("."), imgUrl.length - 3);
+
+
                 var result = {
                     title: $(this).children("header").children("h2").children("a").text(),
-                    link: $(this).children("header").children("h2").children("a").attr("href")
+                    subtitle: $(this).children("header").children("p.excerpt").text(),
+                    link: $(this).children("header").children("h2").children("a").attr("href"),
+                    imgUrl: imgUrl
                 };
 
                 // Create a new article entry in the database
