@@ -121,15 +121,12 @@ module.exports = function(app) {
 
     // Route to create a note for an article id
     app.post("/api/notes/:articleId", function(req, res) {
-        db.Note.create(req.body)
-        .then(function(dbNote) {
-            return db.Article.findOneAndUpdate({
-                _id: req.params.articleId
-            }, {
-                $push: { notes: dbNote._id }
-            }, {
-                new: true
-            })
+        db.Article.findOneAndUpdate({
+            _id: req.params.articleId
+        }, {
+            $push: { notes: req.body.text }
+        }, {
+            new: true
         })
         .then(function(dbArticle) {
             res.json(dbArticle);
@@ -140,12 +137,16 @@ module.exports = function(app) {
     });
 
     // Route to delete a note by id
-    app.delete("/api/notes/:noteId", function(req, res) {
-        db.Note.remove({
-            _id: req.params.noteId
+    app.delete("/api/notes/:articleId", function(req, res) {
+        db.Article.update({
+            _id: req.params.articleId
+        }, {
+            $pull: { notes: req.body.text }
+        }, {
+            new: true
         })
-        .then(function(dbNote) {
-            res.json(dbNote);
+        .then(function(dbArticle) {
+            res.json(dbArticle);
         })
         .catch(function(err) {
             res.json(err);

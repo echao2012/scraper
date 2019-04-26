@@ -36,12 +36,7 @@ var ArticleSchema = new Schema({
     },
 
     // Notes for the article
-    notes: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: "Note"
-        }
-    ]
+    notes: [String]
 });
 
 // Create our model from the above schema
