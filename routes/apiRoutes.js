@@ -37,7 +37,8 @@ module.exports = function(app) {
                 });
             });
 
-            // Scrape complete
+            // Send a message that the scrape was complete
+            res.send("Scrape Complete");
         });
     });
 
@@ -64,7 +65,6 @@ module.exports = function(app) {
         db.Article.findOne({
             _id: req.params.articleId
         })
-        .populate("notes")
         .then(function(dbArticle) {
             res.json(dbArticle);
         })
@@ -74,11 +74,13 @@ module.exports = function(app) {
     });
 
     // Route to save article by id
-    app.put("/api/articles/:articleId", function(req,res) {
+    app.put("/api/articles/:articleId", function(req, res) {
         db.Article.update({
             _id: req.params.articleId
         }, {
-            $set: { saved: true }
+            $set: req.body
+        }, {
+            new: true
         })
         .then(function(dbArticle) {
             res.json(dbArticle);
