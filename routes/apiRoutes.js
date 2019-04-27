@@ -138,7 +138,7 @@ module.exports = function(app) {
         });
     });
 
-    // Route to delete a note by id
+    // Route to delete a note by article id
     app.delete("/api/notes/:articleId", function(req, res) {
         db.Article.update({
             _id: req.params.articleId
